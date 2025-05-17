@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block content %}
+<h2>{{ dashboard_user.full_name }}'s Clinical Trials</h2>
+<ul>
+	{% for trial in trials %}
+	<li>
+		<strong>{{ trial.title }}</strong> –
+		<a href="https://clinicaltrials.gov/study/{{ trial.nct_id }}" target="_blank">
+			{{ trial.nct_id }}
+		</a>
+	</li>
+	{% endfor %}
+</ul>
+{% endblock %}
