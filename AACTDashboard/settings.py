@@ -23,7 +23,7 @@ load_dotenv(BASE_DIR / '.env');
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,11 +87,11 @@ DATABASES = {
     },
     'aact': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'aact',
-        'USER': os.getenv('AACT_USER'),
-        'PASSWORD': os.getenv('AACT_PW'),
-        'HOST': 'aact-db.ctti-clinicaltrials.org',
-        'PORT': '5432',
+        'NAME': os.environ.get('DATABASE_NAME', 'aact'),
+        'USER': os.environ.get('DATABASE_USER', 'your_db_user'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'your_db_password'),
+        'HOST': os.environ.get('DATABASE_HOST', 'localhost'),
+        'PORT': os.environ.get('DATABASE_PORT', '5432'),
     }
 }
 
@@ -128,7 +128,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
 
 # Default primary key field type
