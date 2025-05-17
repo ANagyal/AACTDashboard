@@ -14,7 +14,9 @@ class Command(BaseCommand):
         # Fetch data from the AACT database
         with connections['aact'].cursor() as cursor:
             cursor.execute("""
-                SELECT nct_id, brief_title, cc.name, cc.email
+                SELECT s.nct_id, s.brief_title, cc.name, cc.email,
+                s.study_type, s.overall_status, s.start_date, s.completion_date,
+                s.phase, s.study_first_submitted_date
                 FROM studies s
                 JOIN central_contacts cc USING (nct_id)
                 WHERE cc.email ILIKE '%@%'
@@ -24,7 +26,7 @@ class Command(BaseCommand):
 
         # Map the retrieved user data for easy trial retrieval
         trial_map = {}
-        for nct_id, title, name, email in rows:
+        for nct_id, title, name, email, study_type, status, start_date, completion_date, phase, submitted in rows:
             if email not in trial_map:
                 trial_map[email] = {
                     "full_name": name,
@@ -32,14 +34,20 @@ class Command(BaseCommand):
                 }
             trial_map[email]["trials"].append({
                 "nct_id": nct_id,
-                "title": title
+                "title": title,
+                "study_type": study_type,
+                "status": status,
+                "start_date": str(start_date),
+                "completion_date": str(completion_date),
+                "phase": phase,
+                "submitted": str(submitted)
             })
             
         # Create auth.User and DashboardUser instances and use a one-to-one field mapping
         for email, data in trial_map.items():
             user, created = User.objects.get_or_create(username=email, defaults={"email": email})
             if created:
-                user.set_password("password")  # Default mock password
+                user.set_password("password")
                 user.save()
                 self.stdout.write(f"Created user: {email}")
             else:

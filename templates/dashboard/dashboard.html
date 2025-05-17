@@ -3,11 +3,18 @@
 <ul>
 	{% for trial in trials %}
 	<li>
-		<strong>{{ trial.title }}</strong> –
-		<a href="https://clinicaltrials.gov/study/{{ trial.nct_id }}" target="_blank">
-			{{ trial.nct_id }}
-		</a>
+		<strong>{{ trial.title }}</strong><br />
+		<a href="https://clinicaltrials.gov/study/{{ trial.nct_id }}" target="_blank"
+			>{{ trial.nct_id }}</a
+		><br />
+		Type: {{ trial.study_type }}<br />
+		Phase: {{ trial.phase }}<br />
+		Status: {{ trial.status }}<br />
+		Start: {{ trial.start_date }}<br />
+		Completion: {{ trial.completion_date }}<br />
+		Submitted: {{ trial.submitted }}
 	</li>
+	<hr />
 	{% endfor %}
 </ul>
 {% endblock %}
