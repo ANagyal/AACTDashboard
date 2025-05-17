@@ -23,7 +23,7 @@ load_dotenv(BASE_DIR / '.env');
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-91fmlcq#eo(j))^ut=0js^mx)@dlu+t%1d642^@a_n(cmgxzu7'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,7 +88,7 @@ DATABASES = {
     'aact': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'aact',
-        'USER': 'anagyal',
+        'USER': os.getenv('AACT_USER'),
         'PASSWORD': os.getenv('AACT_PW'),
         'HOST': 'aact-db.ctti-clinicaltrials.org',
         'PORT': '5432',
