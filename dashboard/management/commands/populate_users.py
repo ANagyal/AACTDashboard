@@ -4,11 +4,14 @@ from django.contrib.auth.models import User
 from dashboard.models import DashboardUser
 
 class Command(BaseCommand):
+    # Help message for the command
     help = "Populates users from AACT DB query"
 
     def handle(self, *args, **kwargs):
+        # Print out message explaining what the command is currently doing
         self.stdout.write("Fetching data from AACT database...")
 
+        # Fetch data from the AACT database
         with connections['aact'].cursor() as cursor:
             cursor.execute("""
                 SELECT nct_id, brief_title, cc.name, cc.email
@@ -19,6 +22,7 @@ class Command(BaseCommand):
             """)
             rows = cursor.fetchall()
 
+        # Map the retrieved user data for easy trial retrieval
         trial_map = {}
         for nct_id, title, name, email in rows:
             if email not in trial_map:
@@ -30,7 +34,8 @@ class Command(BaseCommand):
                 "nct_id": nct_id,
                 "title": title
             })
-
+            
+        # Create auth.User and DashboardUser instances and use a one-to-one field mapping
         for email, data in trial_map.items():
             user, created = User.objects.get_or_create(username=email, defaults={"email": email})
             if created:
