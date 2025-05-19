@@ -1,0 +1,188 @@
+/* BEGIN general whole page styling */
+* {
+	font-family: "Segoe UI", sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+}
+div.dashboard.top-level {
+	display: flex;
+	flex-direction: row;
+	width: 96%;
+	gap: 30px;
+	padding: 2%;
+	margin: 0;
+}
+
+/* BEGIN left box styling */
+div.dashboard.sidebar {
+	display: flex;
+	flex-direction: column;
+	width: 20%;
+	padding: 30px;
+	gap: 30px;
+	height: max-content;
+	border: 1px solid #cccccc44;
+	box-shadow: -3px 8px 6px rgba(0, 0, 0, 0.08);
+}
+/* style the buttons */
+div.dashboard.button-group {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+div.dashboard.button-group button {
+	background-color: white;
+	color: #000;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 10px;
+	cursor: pointer;
+	font-size: 14pt;
+	transition: background-color 0.3s, transform 0.3s;
+}
+div.dashboard.find-trial-container {
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	color: #000;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 10px;
+	cursor: pointer;
+	font-size: 14pt;
+	transition: background-color 0.3s, transform 0.3s;
+	background-color: #0078d4;
+	color: white;
+	font-weight: bold;
+}
+a#view-all-trials {
+	display: flex;
+	color: white;
+	font-weight: bold;
+	align-self: center;
+	gap: 5px;
+}
+/* style the user information */
+h4.label {
+	color: #808080;
+}
+div.dashboard.user-info {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+h1#full-name {
+	font-size: 20pt;
+}
+
+/* BEGIN right box styling */
+div.dashboard.right-box {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	border: 1px solid #cccccc44;
+	padding: 30px;
+	box-shadow: -3px 8px 6px rgba(0, 0, 0, 0.08);
+	min-height: 75%;
+	gap: 30px;
+}
+
+/* BEGIN trail counts container styling */
+div.dashboard.trial-counts-container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-evenly;
+}
+div.dashboard.trial-counts {
+	display: flex;
+	width: 125px;
+	flex-direction: column;
+	padding: 20px;
+	gap: 10px;
+	align-items: center;
+	text-align: center;
+	box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.08);
+	transition: transform 0.2s;
+}
+div.dashboard.trial-counts:hover {
+	transform: scale(1.03);
+}
+h3.dashboard.trial-count {
+	font-weight: bold;
+}
+
+/* BEGIN general hover and shadow styling for various elements */
+div.dashboard.button-group button,
+div.dashboard.find-trial-container {
+	transition: background-color 0.3s, transform 0.3s;
+}
+div.dashboard.button-group button:hover,
+div.dashboard.find-trial-container:hover {
+	transform: scale(1.03);
+}
+div.dashboard.find-trial-container:hover {
+	background-color: #005fa3;
+}
+
+/* BEGIN trials tiles styling */
+div.dashboard.trial-tile {
+	display: flex;
+	flex-direction: column;
+	width: 30%;
+	border: 0.5px solid #ccc;
+	border-radius: 15px;
+}
+div.dashboard.trial-tile-top {
+	display: flex;
+	flex-direction: column;
+	width: fit-content;
+	padding: 15px;
+	gap: 5px;
+}
+h5.dashboard.trial-tile-info {
+	color: #808080;
+}
+div.line {
+	border: 0.5px solid #ccc;
+}
+div.dashboard.trial-tile-bottom {
+	display: flex;
+	flex-direction: column;
+	width: fit-content;
+	padding: 15px;
+	gap: 5px;
+}
+h3.dashboard.trial-tile-info-title {
+	font-weight: bold;
+}
+a.dashboard.more-details {
+	display: flex;
+	align-self: flex-end;
+	gap: 5px;
+}
+div.dashboard.trial-tile-icon-container {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	align-items: center;
+}
+div.dashboard.trial-status-info {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+}
+div.dashboard.trial-status-info > h5.dashboard.trial-tile-info-secondary {
+	color: #808080;
+}
+i {
+	color: #808080;
+}
