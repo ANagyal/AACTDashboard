@@ -14,9 +14,23 @@ class Command(BaseCommand):
         # Fetch data from the AACT database
         with connections['aact'].cursor() as cursor:
             cursor.execute("""
-                SELECT s.nct_id, s.brief_title, cc.name, cc.email,
-                s.study_type, s.overall_status, s.start_date, s.completion_date,
-                s.phase, s.study_first_submitted_date
+                SELECT
+                    s.nct_id,
+                    s.brief_title,
+                    cc.name AS contact_name,
+                    cc.email AS contact_email,
+
+                    s.study_type,
+                    s.phase,
+                    s.overall_status,
+                    s.last_known_status,
+
+                    s.start_date,
+                    s.completion_date,
+
+                    s.plan_to_share_ipd,
+                    s.source AS sponsor_organization,
+
                 FROM studies s
                 JOIN central_contacts cc USING (nct_id)
                 WHERE cc.email ILIKE '%@%'
@@ -26,21 +40,28 @@ class Command(BaseCommand):
 
         # Map the retrieved user data for easy trial retrieval
         trial_map = {}
-        for nct_id, title, name, email, study_type, status, start_date, completion_date, phase, submitted in rows:
-            if email not in trial_map:
-                trial_map[email] = {
-                    "full_name": name,
+        for (
+            nct_id, brief_title, contact_name, contact_email,
+            study_type, phase, overall_status, last_known_status,
+            start_date, completion_date, 
+            plan_to_share_ipd, sponsor_organization
+        ) in rows:
+            if contact_email not in trial_map:
+                trial_map[contact_email] = {
+                    "full_name": contact_name,
                     "trials": []
                 }
-            trial_map[email]["trials"].append({
+            trial_map[contact_email]["trials"].append({
                 "nct_id": nct_id,
-                "title": title,
+                "brief_title": brief_title,
                 "study_type": study_type,
-                "status": status,
-                "start_date": str(start_date),
-                "completion_date": str(completion_date),
                 "phase": phase,
-                "submitted": str(submitted)
+                "overall_status": overall_status,
+                "last_known_status": last_known_status,
+                "start_date": str(start_date) if start_date else None,
+                "completion_date": str(completion_date) if completion_date else None,
+                "plan_to_share_ipd": plan_to_share_ipd,
+                "sponsor_organization": sponsor_organization,
             })
             
         # Create auth.User and DashboardUser instances and use a one-to-one field mapping
