@@ -18,7 +18,7 @@ class Command(BaseCommand):
                     s.nct_id,
                     s.brief_title,
                     cc.name AS contact_name,
-                    cc.email AS contact_email,
+                    LOWER(cc.email) AS contact_email,
 
                     s.study_type,
                     s.phase,
@@ -45,6 +45,7 @@ class Command(BaseCommand):
             start_date, completion_date, 
             plan_to_share_ipd, sponsor_organization
         ) in rows:
+            contact_email = contact_email.lower()
             if contact_email not in trial_map:
                 trial_map[contact_email] = {
                     "full_name": contact_name,
