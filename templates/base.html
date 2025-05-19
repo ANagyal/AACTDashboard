@@ -1,11 +1,23 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 	<head>
 		<title>AACT Dashboard</title>
+		<link rel="stylesheet" href="{% static 'dashboard/base.css' %}" />
+		<script
+			src="https://kit.fontawesome.com/bdc038bd0e.js"
+			crossorigin="anonymous"
+		></script>
 	</head>
 	<body>
 		{% if user.is_authenticated %}
-		<p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
-		{% endif %} {% block content %}{% endblock %}
+		<div class="base top-strip">
+			<h1 class="base title">Clinical Trials Dashboard</h1>
+			<div class="base account-info">
+				<p class="base account-username">{{ user.username }}</p>
+				<a href="{% url 'logout' %}">Logout</a>
+			</div>
+		</div>
+		{% endif %} {% block content %} {% endblock %}
 	</body>
 </html>

@@ -1,10 +1,13 @@
-{% extends "base.html" %} {% block content %}
-<h2>Login</h2>
-<form method="post">
-	{% csrf_token %} {{ form.as_p }}
-	<button type="submit">Login</button>
-</form>
-
-{% if form.errors %}
-<p style="color: red">Invalid login. Please try again.</p>
-{% endif %} {% endblock %}
+{% extends "base.html" %}{% load static %} {% block content %}
+<link rel="stylesheet" href="{% static 'dashboard/login.css' %}" />
+<div class="login-container">
+	<h2>Login</h2>
+	<form method="post">
+		{% csrf_token %} {{ form.as_p }}
+		<button type="submit">Login</button>
+	</form>
+	{% if form.errors %}
+	<p class="error-message">Invalid login. Please try again.</p>
+	{% endif %}
+</div>
+{% endblock %}

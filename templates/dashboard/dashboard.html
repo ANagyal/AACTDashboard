@@ -1,20 +1,112 @@
-{% extends "base.html" %} {% block content %}
-<h2>{{ dashboard_user.full_name }}'s Clinical Trials</h2>
-<ul>
-	{% for trial in trials %}
-	<li>
-		<strong>{{ trial.title }}</strong><br />
-		<a href="https://clinicaltrials.gov/study/{{ trial.nct_id }}" target="_blank"
-			>{{ trial.nct_id }}</a
-		><br />
-		Type: {{ trial.study_type }}<br />
-		Phase: {{ trial.phase }}<br />
-		Status: {{ trial.status }}<br />
-		Start: {{ trial.start_date }}<br />
-		Completion: {{ trial.completion_date }}<br />
-		Submitted: {{ trial.submitted }}
-	</li>
-	<hr />
-	{% endfor %}
-</ul>
-{% endblock %}
+{% extends "base.html" %} {% load static %} {% block content %}
+<link rel="stylesheet" href="{% static 'dashboard/dashboard.css' %}" />
+<div class="dashboard top-level">
+	<div class="dashboard sidebar">
+		<div class="dashboard user-info">
+			<h1 id="full-name">{{ dashboard_user.full_name }}</h1>
+			<h4 class="label">{{ user.username }}</h4>
+		</div>
+		<div class="dashboard button-group">
+			<button class="dashboard update-contact-info">Update Contact Info</button>
+			<div class="dashboard find-trial-container">
+				<a
+					href="https://clinicaltrials.gov/"
+					target="_blank"
+					rel="noopener noreferrer"
+					id="view-all-trials"
+					class="dashboard all trials"
+					>Find a Trial<i
+						style="color: white"
+						class="fa-solid fa-arrow-up-right-from-square"
+					></i
+				></a>
+			</div>
+		</div>
+	</div>
+	<div class="dashboard right-box">
+		<div class="dashboard trial-counts-container">
+			<div class="dashboard trial-counts">
+				<h1 class="dashboard trial-count">{{ dashboard_user.trials|length }}</h1>
+				<h3>Total Trials Assigned</h3>
+			</div>
+			<div class="dashboard trial-counts">
+				<h1 class="dashboard trial-count">{{ dashboard_user.trials|length }}</h1>
+				<h3>Trials In Progress</h3>
+			</div>
+			<div class="dashboard trial-counts">
+				<h1 class="dashboard trial-count" style="color: #ff0000a3">
+					{{ dashboard_user.trials|length }}
+				</h1>
+				<h3>Trials Missing Contact Info</h3>
+			</div>
+		</div>
+		<div class="dashboard trial-tiles">
+			{% for trial in dashboard_user.trials %}
+			<div class="dashboard trial-tile">
+				<div class="dashboard trial-tile-top">
+					<h3 class="dashboard trial-tile-info-title">{{ trial.brief_title }}</h3>
+					<h5 class="dashboard trial-tile-info">Study ID: {{ trial.nct_id }}</h5>
+				</div>
+				<div class="line"></div>
+				<div class="dashboard trial-tile-bottom">
+					<div class="dashboard trial-tile-icon-container">
+						<i class="fa-solid fa-clipboard"></i>
+						<h4 class="dashboard trial-tile-info">Type: {{ trial.study_type }}</h4>
+					</div>
+					<div class="dashboard trial-tile-icon-container">
+						<i class="fa-solid fa-stairs"></i>
+						<h4 class="dashboard trial-tile-info">Phase: {{ trial.phase }}</h4>
+					</div>
+					<div class="dashboard trial-tile-icon-container">
+						{% if trial.overall_status == "UNKNOWN" %}
+						<i class="fa-solid fa-circle-question" style="color: #ffd43b"></i>
+						{% else %}
+						<i class="fa-solid fa-circle-check"></i>
+						{% endif %}
+						<div class="dashboard trial-status-info">
+							<h4 class="dashboard trial-tile-info">
+								Status: {{ trial.overall_status }}
+							</h4>
+							<h5 class="dashboard trial-tile-info-secondary">
+								(last known: {{ trial.last_known_status }})
+							</h5>
+						</div>
+					</div>
+					<div class="dashboard trial-tile-icon-container">
+						<i class="fa-solid fa-building"></i>
+						<h4 class="dashboard trial-tile-info">
+							Sponsor: {{ trial.sponsor_organization }}
+						</h4>
+					</div>
+					<div class="dashboard trial-tile-icon-container">
+						<i class="fa-solid fa-play"></i>
+						<h4 class="dashboard trial-tile-info">Start: {{ trial.start_date }}</h4>
+					</div>
+					<div class="dashboard trial-tile-icon-container">
+						<i class="fa-solid fa-stop"></i>
+						<h4 class="dashboard trial-tile-info">
+							Est. Completion: {{ trial.completion_date }}
+						</h4>
+					</div>
+					<div class="dashboard trial-tile-icon-container">
+						<i class="fa-solid fa-person"></i>
+						<h4 class="dashboard trial-tile-info">
+							IPD Sharing Plan: {{ trial.plan_to_share_ipd }}
+						</h4>
+					</div>
+					<a
+						href="https://clinicaltrials.gov/study/{{ trial.nct_id}}"
+						target="_blank"
+						class="dashboard more-details"
+						>More Details<i
+							style="color: #1976d2"
+							class="fa-solid fa-arrow-up-right-from-square"
+						></i
+					></a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	{% endblock %}
+</div>
