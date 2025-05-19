@@ -7,7 +7,6 @@
 			<h4 class="label">{{ user.username }}</h4>
 		</div>
 		<div class="dashboard button-group">
-			<button class="dashboard update-contact-info">Update Contact Info</button>
 			<div class="dashboard find-trial-container">
 				<a
 					href="https://clinicaltrials.gov/"
@@ -26,17 +25,23 @@
 	<div class="dashboard right-box">
 		<div class="dashboard trial-counts-container">
 			<div class="dashboard trial-counts">
-				<h1 class="dashboard trial-count">{{ dashboard_user.trials|length }}</h1>
+				<h1 class="dashboard trial-count">{{ dashboard_user.total_trials }}</h1>
 				<h3>Total Trials Assigned</h3>
 			</div>
 			<div class="dashboard trial-counts">
-				<h1 class="dashboard trial-count">{{ dashboard_user.trials|length }}</h1>
+				<h1 class="dashboard trial-count">{{ dashboard_user.trials_inprogress }}</h1>
 				<h3>Trials In Progress</h3>
 			</div>
 			<div class="dashboard trial-counts">
+				{% if dashboard_user.trials_missingcontact > 0 %}
 				<h1 class="dashboard trial-count" style="color: #ff0000a3">
-					{{ dashboard_user.trials|length }}
+					{{dashboard_user.trials_missingcontact }}
 				</h1>
+				{% else %}
+				<h1 class="dashboard trial-count" style="color: #008000a3">
+					{{dashboard_user.trials_missingcontact }}
+				</h1>
+				{% endif %}
 				<h3>Trials Missing Contact Info</h3>
 			</div>
 		</div>
@@ -61,15 +66,17 @@
 						{% if trial.overall_status == "UNKNOWN" %}
 						<i class="fa-solid fa-circle-question" style="color: #ffd43b"></i>
 						{% else %}
-						<i class="fa-solid fa-circle-check"></i>
+						<i class="fa-solid fa-circle-check" style="color: green"></i>
 						{% endif %}
 						<div class="dashboard trial-status-info">
 							<h4 class="dashboard trial-tile-info">
 								Status: {{ trial.overall_status }}
 							</h4>
+							{% if trial.last_known_status == "None" %}
 							<h5 class="dashboard trial-tile-info-secondary">
 								(last known: {{ trial.last_known_status }})
 							</h5>
+							{% endif %}
 						</div>
 					</div>
 					<div class="dashboard trial-tile-icon-container">
