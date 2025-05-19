@@ -48,6 +48,9 @@ class Command(BaseCommand):
             if contact_email not in trial_map:
                 trial_map[contact_email] = {
                     "full_name": contact_name,
+                    "total_trials": 0,
+                    "trials_inprogress": 0,
+                    "trials_missingcontact": 0,
                     "trials": []
                 }
             trial_map[contact_email]["trials"].append({
@@ -62,6 +65,12 @@ class Command(BaseCommand):
                 "plan_to_share_ipd": plan_to_share_ipd,
                 "sponsor_organization": sponsor_organization,
             })
+            trial_map[contact_email]["total_trials"] += 1
+            if overall_status == "In Progress":
+                trial_map[contact_email]["trials_inprogress"] += 1
+            if not contact_name:
+                trial_map[contact_email]["trials_missingcontact"] += 1
+            
             
         # Create auth.User and DashboardUser instances and use a one-to-one field mapping
         for email, data in trial_map.items():
@@ -76,6 +85,9 @@ class Command(BaseCommand):
                 user=user,
                 defaults={
                     "full_name": data["full_name"],
+                    "total_trials": data["total_trials"],
+                    "trials_inprogress": data["trials_inprogress"],
+                    "trials_missingcontact": data["trials_missingcontact"],
                     "trials": data["trials"]
                 }
             )
