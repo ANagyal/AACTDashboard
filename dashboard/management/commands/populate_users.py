@@ -29,8 +29,7 @@ class Command(BaseCommand):
                     s.completion_date,
 
                     s.plan_to_share_ipd,
-                    s.source AS sponsor_organization,
-
+                    s.source AS sponsor_organization
                 FROM studies s
                 JOIN central_contacts cc USING (nct_id)
                 WHERE cc.email ILIKE '%@%'
@@ -70,7 +69,6 @@ class Command(BaseCommand):
             if created:
                 user.set_password("password")
                 user.save()
-                self.stdout.write(f"Created user: {email}")
             else:
                 self.stdout.write(f"User already exists: {email}")
 
