@@ -34,6 +34,13 @@ Use Docker Compose to build the images and start the services:
 docker-compose up --build
 ```
 
-This will start the Django development server on `http://localhost:8000`.
+This will start the Django development server on [http://localhost:8000](http://localhost:8000).
 
 The service will automatically run the necessary migrations and populate user data once during the initial build.
+
+### 4. Log in and View the Dashboard
+
+Enter the following default credentials:
+
+> Username: hector.garcia-chavez@bcm.edu\
+> Password: password
