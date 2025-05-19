@@ -34,6 +34,7 @@ div.dashboard.button-group {
 
 div.dashboard.button-group button,
 div.dashboard.find-trial-container {
+	display: flex;
 	background-color: #0078d4;
 	color: #fff;
 	border: none;
@@ -43,6 +44,7 @@ div.dashboard.find-trial-container {
 	font-size: 1rem;
 	transition: background-color 0.3s, transform 0.2s;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+	gap: 5px;
 }
 
 div.dashboard.find-trial-container:hover,
